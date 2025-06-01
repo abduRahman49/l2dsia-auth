@@ -18,5 +18,5 @@ class RegistrationForm(FlaskForm):
     password_confirm = PasswordField(label="Confirmation du mot de passe",
                                      name="password_confirm",
                                      validators=[DataRequired(),
-                                                 EqualTo("password", "Les valeurs sont différentes")]
+                                                 EqualTo("password", "Les valeurs des mots de passe sont différentes")]
                                                  )
