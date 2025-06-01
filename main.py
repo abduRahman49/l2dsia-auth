@@ -52,7 +52,7 @@ def registration():
     if form.validate_on_submit():
         # Récupérées les informations soumises et inscrire l'utilisateur
         return redirect(url_for('connexion'))
-    
+
     return render_template("inscription.html", form=form)
 
 @app.route("/home")
