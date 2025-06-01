@@ -1,11 +1,14 @@
 # Import des dépendances
 from flask import request, Flask, render_template, session, redirect, url_for
-from database import StudentDAL
+from database import StudentDAL, UtilisateurDAL
 from forms import LoginForm, RegistrationForm
+from flask_bcrypt import Bcrypt
 
 
 # Instation de l'application Flask
 app = Flask(__name__)
+# Définit la classe Bcrypt pour la gestion de la cryptographie
+bcrypt = Bcrypt(app)
 app.debug = True
 app.secret_key = "eflekljfkfljsl" # Clé à changer en production
 
@@ -49,7 +52,14 @@ def process_registration():
 @app.route("/register", methods=["GET", "POST"])
 def registration():
     form = RegistrationForm()
+    Utilisateur = UtilisateurDAL(bcrypt)
     if form.validate_on_submit():
+        nom_utilisateur = form.username.data
+        mot_de_passe = form.password.data
+        prenom = form.prenom.data
+        nom = form.nom.data
+        email = form.email.data
+        Utilisateur.create(nom, prenom, email, mot_de_passe, nom_utilisateur)
         # Récupérées les informations soumises et inscrire l'utilisateur
         return redirect(url_for('connexion'))
 

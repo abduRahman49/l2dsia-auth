@@ -51,7 +51,7 @@ class StudentDAL:
         requete = "SELECT * FROM etudiants WHERE id = ?"
         self.cursor.execute(requete, arguments)
         return self.cursor.fetchone()
-    
+  
     def get_all(self):
         """
         Retourne l'ensemble des étudiants
@@ -67,3 +67,17 @@ class StudentDAL:
             } for item in self.cursor.fetchall()
         ]
 
+class UtilisateurDAL:
+
+    def __init__(self, bcrypt):
+        import sqlite3
+        self.bcrypt = bcrypt
+        self.connection = sqlite3.connect(DATABASE_NAME)
+        self.cursor = self.connection.cursor()
+
+    def create(self, nom, prenom, email, mot_de_passe, nom_utilisateur):
+        requete = "INSERT INTO utilisateurs(nom, prenom, email, mot_de_passe, nom_utilisateur) VALUES(?, ?, ?, ?, ?)"
+        password_hash = self.bcrypt.generate_password_hash(mot_de_passe)
+        arguments = (nom, prenom, email, password_hash, nom_utilisateur)
+        self.cursor.execute(requete, arguments)
+        self.connection.commit()
