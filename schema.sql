@@ -1,0 +1,19 @@
+CREATE TABLE etudiants (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nom TEXT NOT NULL,
+    age INTEGER NOT NULL
+);
+
+CREATE TABLE cours (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    titre TEXT NOT NULL,
+    credits INTEGER NOT NULL
+);
+
+CREATE TABLE enrolements (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_etudiant INTEGER NOT NULL,
+    id_cours INTEGER NOT NULL,
+    FOREIGN KEY(id_etudiant) REFERENCES etudiants(id),
+    FOREIGN KEY(id_cours) REFERENCES cours(id)
+);

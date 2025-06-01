@@ -1,0 +1,56 @@
+import sqlite3
+
+connection = sqlite3.connect(r"C:\Users\Abdou SEYE\OneDrive\Documents\L2DSIA\projects\database.db")
+
+cursor = connection.cursor()
+
+script = """
+CREATE TABLE etudiants (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nom TEXT NOT NULL,
+    age INTEGER NOT NULL
+);
+
+CREATE TABLE cours (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    titre TEXT NOT NULL,
+    credits INTEGER NOT NULL
+);
+
+CREATE TABLE enrolements (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_etudiant INTEGER NOT NULL,
+    id_cours INTEGER NOT NULL,
+    FOREIGN KEY(id_etudiant) REFERENCES etudiants(id),
+    FOREIGN KEY(id_cours) REFERENCES cours(id)
+);
+"""
+
+cursor.executescript(script)
+connection.commit()
+
+insert_script = "INSERT INTO etudiants(nom, age) VALUES ('Ami', 22)"
+
+cursor.execute(insert_script)
+
+connection.commit()
+insert_script = "INSERT INTO etudiants(nom, age) VALUES ('Moussa', 30)"
+cursor.execute(insert_script)
+connection.commit()
+insert_script = "INSERT INTO etudiants(nom, age) VALUES ('Abdou', 40)"
+cursor.execute(insert_script)
+connection.commit()
+arguments = {"nom": "Maty", "age": 19}
+
+insert_script = "INSERT INTO etudiants(nom, age) VALUES (:nom, :age)"
+cursor.execute(insert_script, arguments)
+connection.commit()
+
+select_script = "SELECT * FROM etudiants"
+cursor.execute(select_script)
+resultats = cursor.fetchall()
+resultats
+
+for resultat in resultats:
+    id, prenom, age = resultat
+    print(f"Je m'appelle {prenom} et j'ai {age}")

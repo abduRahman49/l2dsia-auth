@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page de connexion</title>
+</head>
+<body>
+    <form method="post" action="{{ url_for('connexion') }}">
+       {{ form.csrf_token }}
+                                 {# Bloc de commentaire montrant l'équivalence des notations #}
+       {{ form.username.label }} {# <label>Nom d'utilisateur</label> #}
+       {{ form.username(size=30) }} {# <input type="text" name="username"> #}
+
+       {{ form.password.label }} {# <label>Mot de passe</label> #}
+       {{ form.password(size=30) }} {# <input type="password" name="password"> #}
+       
+        <button>Se connecter</button>
+    </form>
+</body>
+</html>
