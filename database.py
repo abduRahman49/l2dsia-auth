@@ -76,8 +76,25 @@ class UtilisateurDAL:
         self.cursor = self.connection.cursor()
 
     def create(self, nom, prenom, email, mot_de_passe, nom_utilisateur):
+        """
+        Méthode permettant l'inscription d'un nouvel utilisateur
+        """
         requete = "INSERT INTO utilisateurs(nom, prenom, email, mot_de_passe, nom_utilisateur) VALUES(?, ?, ?, ?, ?)"
         password_hash = self.bcrypt.generate_password_hash(mot_de_passe)
         arguments = (nom, prenom, email, password_hash, nom_utilisateur)
         self.cursor.execute(requete, arguments)
         self.connection.commit()
+
+    def get_user_by_username(self, username):
+        """
+        Récupération de l'utilisateur en fonction du nom d'utilisateur
+        """
+        requete = "SELECT * FROM utilisateurs WHERE nom_utilisateur = ?"
+        arguments = (username,)
+        self.cursor.execute(requete, arguments)
+        result = self.cursor.fetchone()
+        return {
+            "id": result[0],
+            "username": result[3],
+            "password": result[-1]
+        }
