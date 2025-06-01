@@ -8,14 +8,7 @@
 <body>
     
     <form method="post" action="{{ url_for('registration') }}">
-        <label>Nom</label>
-        <input type="text" name="nom">
-
-        <label>Prenom</label>
-        <input type="text" name="prenom">
-
-        <label>Age</label>
-        <input type="text" name="age">
+        {{ form.csrf_token }}
 
         <button>S'inscrire</button>
     </form>

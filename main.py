@@ -48,19 +48,16 @@ def process_registration():
 
 @app.route("/register", methods=["GET", "POST"])
 def registration():
-    if request.method == "GET":
-        return render_template("inscription.html")
-
-    nom = request.form.get('nom')
-    prenom = request.form.get('prenom')
-    age = request.form.get('age')
-
-    return render_template("remerciements.html", nom=nom, prenom=prenom)
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        # Récupérées les informations soumises et inscrire l'utilisateur
+        return redirect(url_for('connexion'))
+    
+    return render_template("inscription.html", form=form)
 
 @app.route("/home")
 def index():
-    email = session.get("email")
-    return render_template("index.html", email=email)
+    return render_template("index.html")
 
 @app.errorhandler(404)
 def error_404(error):
